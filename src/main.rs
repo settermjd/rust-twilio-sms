@@ -86,7 +86,7 @@ fn main() -> Result<(), Error> {
         ("body", &sms_body),
     ];
     let response = client
-        .post(&request_url)
+        .post(request_url)
         .basic_auth(twilio_account_sid, Some(twilio_auth_token))
         .form(&request_params)
         .send()?;
