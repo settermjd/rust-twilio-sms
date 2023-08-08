@@ -70,9 +70,9 @@ fn main() -> Result<(), Error> {
     let twilio_auth_token =
         env::var("TWILIO_AUTH_TOKEN").expect("Twilio Auth Token could not be retrieved.");
     let twilio_phone_number =
-        env::var("TWILIO_PHONE_NUMBER").expect("Twilio Auth Token could not be retrieved.");
+        env::var("TWILIO_PHONE_NUMBER").expect("The Twilio phone number could not be retrieved.");
     let recipient_phone_number =
-        env::var("RECIPIENT_PHONE_NUMBER").expect("Twilio Auth Token could not be retrieved.");
+        env::var("RECIPIENT_PHONE_NUMBER").expect("The recipient's phone number could not be retrieved.");
 
     let sms_body = "G'day from Rust and Twilio".to_string();
 
