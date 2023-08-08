@@ -103,7 +103,7 @@ fn main() -> Result<(), Error> {
     match status {
         StatusCode::BAD_REQUEST => handle_error(body),
         StatusCode::OK => handle_success(body),
-        _ => panic!("Unknown error code"),
+        _ => println!("Received status code: {}", status),
     }
 
     Ok(())
