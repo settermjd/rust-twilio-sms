@@ -32,7 +32,7 @@ struct ErrorResponse {
     code: u16,
     message: String,
     more_info: String,
-    status: u16
+    status: u16,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -48,34 +48,42 @@ struct SubresourceUris {
 }
 
 fn handle_error(body: String) {
-    let error_response: ErrorResponse = serde_json::from_str(&body).expect("Unable to deserialise JSON error response.");
-    println!("SMS was not able to be sent because: {:?}.", error_response.message);
+    let error_response: ErrorResponse =
+        serde_json::from_str(&body).expect("Unable to deserialise JSON error response.");
+    println!(
+        "SMS was not able to be sent because: {:?}.",
+        error_response.message
+    );
 }
 
 fn handle_success(body: String) {
-    let sms_response: SMSResponse = serde_json::from_str(&body).expect("Unable to deserialise JSON success response.");
+    let sms_response: SMSResponse =
+        serde_json::from_str(&body).expect("Unable to deserialise JSON success response.");
     println!("Your SMS with the body \"{:?}\".", sms_response.body);
 }
 
 fn main() -> Result<(), Error> {
     dotenv().ok();
 
-    let twilio_account_sid = env::var("TWILIO_ACCOUNT_SID").expect("Twilio Account SID could not be retrieved.");
-    let twilio_auth_token = env::var("TWILIO_AUTH_TOKEN").expect("Twilio Auth Token could not be retrieved.");
-    let twilio_phone_number = env::var("TWILIO_PHONE_NUMBER").expect("Twilio Auth Token could not be retrieved.");
-    let recipient_phone_number = env::var("RECIPIENT_PHONE_NUMBER").expect("Twilio Auth Token could not be retrieved.");
+    let twilio_account_sid =
+        env::var("TWILIO_ACCOUNT_SID").expect("Twilio Account SID could not be retrieved.");
+    let twilio_auth_token =
+        env::var("TWILIO_AUTH_TOKEN").expect("Twilio Auth Token could not be retrieved.");
+    let twilio_phone_number =
+        env::var("TWILIO_PHONE_NUMBER").expect("Twilio Auth Token could not be retrieved.");
+    let recipient_phone_number =
+        env::var("RECIPIENT_PHONE_NUMBER").expect("Twilio Auth Token could not be retrieved.");
 
     let sms_body = "G'day from Rust and Twilio".to_string();
 
-    let request_url = format!(
-        "https://api.twilio.com/2010-04-01/Accounts/{twilio_account_sid}/Messages.json"
-    );
+    let request_url =
+        format!("https://api.twilio.com/2010-04-01/Accounts/{twilio_account_sid}/Messages.json");
 
     let client = Client::new();
     let request_params = [
-        ("to", &recipient_phone_number), 
-        ("from", &twilio_phone_number), 
-        ("body", &sms_body)
+        ("to", &recipient_phone_number),
+        ("from", &twilio_phone_number),
+        ("body", &sms_body),
     ];
     let response = client
         .post(&request_url)
@@ -87,13 +95,16 @@ fn main() -> Result<(), Error> {
     let body_result = response.text();
     let body = match body_result {
         Ok(result) => result,
-        Err(error) => panic!("Problem extracting the JSON body content. Reason: {:?}", error),
+        Err(error) => panic!(
+            "Problem extracting the JSON body content. Reason: {:?}",
+            error
+        ),
     };
-    
+
     match status {
         StatusCode::BAD_REQUEST => handle_error(body),
         StatusCode::OK => handle_success(body),
-        _ => panic!("Unknown error code")
+        _ => panic!("Unknown error code"),
     }
 
     Ok(())
