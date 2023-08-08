@@ -92,8 +92,7 @@ fn main() -> Result<(), Error> {
         .send()?;
 
     let status = response.status();
-    let body_result = response.text();
-    let body = match body_result {
+    let body = match response.text() {
         Ok(result) => result,
         Err(error) => panic!(
             "Problem extracting the JSON body content. Reason: {:?}",
