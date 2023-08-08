@@ -81,9 +81,9 @@ fn main() -> Result<(), Error> {
 
     let client = Client::new();
     let request_params = [
-        ("to", &recipient_phone_number),
-        ("from", &twilio_phone_number),
-        ("body", &sms_body),
+        ("To", &recipient_phone_number),
+        ("From", &twilio_phone_number),
+        ("Body", &sms_body),
     ];
     let response = client
         .post(request_url)
