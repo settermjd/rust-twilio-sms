@@ -28,14 +28,6 @@ struct SMSResponse {
 }
 
 #[derive(Serialize, Deserialize)]
-struct ErrorResponse {
-    code: u16,
-    message: String,
-    more_info: String,
-    status: u16,
-}
-
-#[derive(Serialize, Deserialize)]
 struct SubresourceUris {
     all_time: String,
     today: String,
@@ -45,6 +37,14 @@ struct SubresourceUris {
     daily: String,
     monthly: String,
     yearly: String,
+}
+
+#[derive(Serialize, Deserialize)]
+struct ErrorResponse {
+    code: u16,
+    message: String,
+    more_info: String,
+    status: u16,
 }
 
 fn handle_error(body: String) {
