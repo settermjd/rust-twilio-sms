@@ -74,7 +74,7 @@ fn main() -> Result<(), Error> {
     let recipient_phone_number = env::var("RECIPIENT_PHONE_NUMBER")
         .expect("The recipient's phone number could not be retrieved.");
 
-    let sms_body = "G'day from Rust and Twilio".to_string();
+    let sms_body = "G'day from Rust and Twilio";
 
     let request_url =
         format!("https://api.twilio.com/2010-04-01/Accounts/{twilio_account_sid}/Messages.json");
@@ -83,7 +83,7 @@ fn main() -> Result<(), Error> {
     let request_params = [
         ("To", &recipient_phone_number),
         ("From", &twilio_phone_number),
-        ("Body", &sms_body),
+        ("Body", &sms_body.to_string()),
     ];
     let response = client
         .post(request_url)
